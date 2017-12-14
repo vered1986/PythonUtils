@@ -45,7 +45,7 @@ Options:
 ```
 
 
-### Convert textual format to word2vec format
+## Convert textual format to word2vec format
 
 Use the following script from [gensim](https://radimrehurek.com/gensim/):
 
