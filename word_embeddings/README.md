@@ -42,3 +42,13 @@ Arguments:
         
 Options:
         --create_gzip   whether to gzip the textual embeddings
+```
+
+
+### Convert textual format to word2vec format
+
+Use the following script from [gensim](https://radimrehurek.com/gensim/):
+
+```
+python -m gensim.scripts.glove2word2vec --input embeddings.txt --output embeddings.bin
+```
