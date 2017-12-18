@@ -78,7 +78,7 @@ Arguments:
 
 ## PCA
 
-[PCA] is a dimensionality reduction algorithm using Singular Value Decomposition of the data to project it to a lower dimensional space, which is suitable for the visualization of word embeddings.
+[PCA](https://en.wikipedia.org/wiki/Principal_component_analysis) is a dimensionality reduction algorithm using Singular Value Decomposition of the data to project it to a lower dimensional space, which is suitable for the visualization of word embeddings.
 
 The script `pca.py` loads word embeddings and a specific vocabulary and draws a PCA graph of the words in the vocabulary. The output is a pdf file.
 
