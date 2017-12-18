@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from docopt import docopt
-from sklearn.manifold import TSNE
+from sklearn.decomposition import PCA
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
@@ -17,10 +17,10 @@ logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 def main():
     args = docopt("""Draws a 2d graph of the given list of words and word embeddings, using
-        t-Distributed Stochastic Neighbor Embedding (t-SNE).
+        Principal component analysis (PCA). 
 
         Usage:
-            tsne.py <embeddings_file> <pdf_out_file> <vocab_file> <embeddings_dim>
+            pca.py <embeddings_file> <pdf_out_file> <vocab_file> <embeddings_dim>
 
         Arguments:
             embeddings_file     the input embedding file
@@ -39,10 +39,10 @@ def main():
     logger.info('Reading the embeddings from {}...'.format(embeddings_file))
     wv, vocabulary = load_embeddings(embeddings_file, embeddings_dim, vocab)
 
-    logger.info('Computing TSNE...')
-    tsne = TSNE(n_components=2, random_state=0)
+    logger.info('Computing PCA...')
+    pca = PCA(n_components=2)
     np.set_printoptions(suppress=True)
-    Y = tsne.fit_transform(wv)
+    Y = pca.fit_transform(wv)
 
     logger.info('Saving the output file to {}...'.format(out_file))
     fig = matplotlib.pyplot.figure(figsize=(48, 42))

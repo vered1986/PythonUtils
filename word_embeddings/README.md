@@ -58,16 +58,34 @@ python -m gensim.scripts.glove2word2vec --input embeddings.txt --output embeddin
 
 # Visualization
 
-## TSNE
+## t-SNE
 
-[TSNE](https://lvdmaaten.github.io/tsne/) is a dimensionality reduction algorithm suitable for the visualization of word embeddings. 
+[t-SNE](https://lvdmaaten.github.io/tsne/) is a dimensionality reduction algorithm suitable for the visualization of word embeddings. 
 
-The script `tsne.py` loads word embeddings and a specific vocabulary and draws a TSNE graph of the words in the vocabulary. The output is a pdf file.
+The script `tsne.py` loads word embeddings and a specific vocabulary and draws a t-SNE graph of the words in the vocabulary. The output is a pdf file.
 
 ### Usage:
 
 ```
 tsne.py <embeddings_file> <pdf_out_file> <vocab_file> <embeddings_dim>
+
+Arguments:
+	embeddings_file     the input embedding file
+	pdf_out_file        the output PDF file with the TSNE graph
+	vocab_file          the words to draw
+	embeddings_dim      the embedding dimension
+```
+
+## PCA
+
+[PCA] is a dimensionality reduction algorithm using Singular Value Decomposition of the data to project it to a lower dimensional space, which is suitable for the visualization of word embeddings.
+
+The script `pca.py` loads word embeddings and a specific vocabulary and draws a PCA graph of the words in the vocabulary. The output is a pdf file.
+
+### Usage:
+
+```
+pca.py <embeddings_file> <pdf_out_file> <vocab_file> <embeddings_dim>
 
 Arguments:
 	embeddings_file     the input embedding file
