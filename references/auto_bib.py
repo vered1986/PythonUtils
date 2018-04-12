@@ -31,6 +31,7 @@ import textract
 
 from bs4 import BeautifulSoup
 from arxiv2bib import arxiv2bib
+from urllib.parse import urljoin
 
 
 def main():
@@ -53,7 +54,10 @@ def main():
         logger.info('Reading references from {}'.format(args.in_url))
         page = urllib.request.urlopen(args.in_url)
         soup = BeautifulSoup(page, 'html.parser')
-        links = [link.get('href') for link in soup.findAll('a')]
+        links = filter(None, [link.get('href') for link in soup.findAll('a')])
+
+        # Resolve relative URLs
+        links = [link if 'www' in link or 'http' in link else urljoin(args.in_url, link) for link in links]
 
     else:
         logger.info('Reading references from {}'.format(args.in_file))
@@ -62,15 +66,19 @@ def main():
 
     links = list(set(links))
     logger.info('Found {} links'.format(len(links)))
-    references = set()
+
+    # Save references as a dictionary with the normalized title as a key,
+    # to prevent duplicate entries (i.e. especially from bib and paper links)
+    references = {}
     for link in links:
-        bib = try_get_bib(link, acl_anthology_by_id, acl_anthology_by_title)
-        if bib is not None:
-            references.add(bib)
+        result = try_get_bib(link, acl_anthology_by_id, acl_anthology_by_title)
+        if result is not None:
+            bib, title = result
+            references[title] = bib
 
     logger.info('Writing bib file to {}'.format(args.out_bib_file))
     with codecs.open(args.out_bib_file, 'w', 'utf-8') as f_out:
-        for bib in references:
+        for bib in references.values():
             f_out.write(bib + '\n\n')
 
 
@@ -81,7 +89,7 @@ def try_get_bib(url, acl_anthology_by_id, acl_anthology_by_title):
     :param url: the URL to extract a publication from
     :param acl_anthology_by_id: a dictionary of publications by ID (from ACL anthology)
     :param acl_anthology_by_title: a dictionary of publications by title (from ACL anthology)
-    :return: the bib entry or None if not found / error occurred
+    :return: a tuple of (bib entry, tuple) or None if not found / error occurred
     """
     lowercased_url = url.lower()
     filename = lowercased_url.split('/')[-1]
@@ -93,43 +101,83 @@ def try_get_bib(url, acl_anthology_by_id, acl_anthology_by_title):
     # If ends with bib, read it
     if filename.endswith('.bib'):
         bib_entry = urllib.request.urlopen(url).read().decode('utf-8')
-        return bib_entry
+        title = get_title_from_bib_entry(bib_entry)
+        return (bib_entry, title)
 
     paper_id = filename.replace('.pdf', '')
 
-    # If arXiv URL
+    # Paper from TACL
+    if 'transacl.org' in lowercased_url or 'tacl' in lowercased_url:
+        result = get_bib_from_tacl(paper_id)
+
+        if result is not None:
+            try:
+                bib_entry, title = result
+                title = normalize_title(title)
+                return (bib_entry, title)
+            except:
+                pass
+
+
+    # If arXiv URL, get paper details from arXiv
     if 'arxiv.org' in lowercased_url:
         results = arxiv2bib([paper_id])
 
         if len(results) > 0:
             try:
-                bib_entry = results[0].bibtex()
+                result = results[0]
+                title = normalize_title(result.title)
+
+                # First, try searching for the title in the ACL anthology. If the paper
+                # was published in a *CL conference, it should be cited from there and not from arXiv
+                bib_entry = acl_anthology_by_title.get(title, None)
+
+                # Not found in ACL - take from arXiv
+                if bib_entry is None:
+                    bib_entry = result.bibtex()
             except:
                 pass
 
         if bib_entry:
-            return bib_entry
+            return (bib_entry, title)
 
     # If the URL is from the ACL anthology, take it by ID
     if 'aclanthology' in lowercased_url or 'aclweb.org' in lowercased_url:
         bib_entry = acl_anthology_by_id.get(paper_id.upper(), None)
 
         if bib_entry:
-            return bib_entry
+            title = get_title_from_bib_entry(bib_entry)
+            return (bib_entry, title)
 
     # If the URL is from Semantic Scholar
     if 'semanticscholar.org' in lowercased_url and not lowercased_url.endswith('pdf'):
-        bib_entry = get_bib_from_semantic_scholar(url)
+        result = get_bib_from_semantic_scholar(url)
 
-        if bib_entry:
-            return bib_entry
+        if result is not None:
+            try:
+                semantic_scholar_bib_entry, title = result
+                title = normalize_title(title)
+
+                # First, try searching for the title in the ACL anthology. If the paper
+                # was published in a *CL conference, it should be cited from there and not from Semantic Scholar
+                bib_entry = acl_anthology_by_title.get(title, None)
+
+                # Not found in ACL - take from Semantic Scholar
+                if bib_entry is None:
+                    bib_entry = semantic_scholar_bib_entry
+
+                return (bib_entry, title)
+            except:
+                pass
 
     # Else: try to read the pdf and find it in the acl anthology by the title
     if lowercased_url.endswith('pdf'):
-        bib_entry = get_from_pdf(url, acl_anthology_by_title)
+        result = get_from_pdf(url, acl_anthology_by_title)
 
-        if bib_entry:
-            return bib_entry
+        if result is not None:
+            bib_entry, title = result
+            title = normalize_title(title)
+            return (bib_entry, title)
 
     # Didn't find
     logger.warning('Could not find {}'.format(url))
@@ -196,11 +244,31 @@ def normalize_title(title):
     return re.sub('\s+', ' ', re.sub('[\W_]+', ' ', title.lower()))
 
 
+def get_bib_from_tacl(paper_id):
+    """
+    Gets a TACL paper page and returns a bib entry
+    :param paper_id: TACL paper ID
+    :return: a tuple of (bib entry, title) or None if not found / error occurred
+    """
+    url = 'https://transacl.org/ojs/index.php/tacl/rt/captureCite/{id}/0/BibtexCitationPlugin'.format(id=paper_id)
+
+    try:
+        page = urllib.request.urlopen(url)
+        soup = BeautifulSoup(page, 'html.parser')
+        bib_entry = soup.find('pre').string
+        title = soup.find('h3').string
+
+    except:
+        return None
+
+    return bib_entry, title
+
+
 def get_bib_from_semantic_scholar(url):
     """
     Gets a Semantic Scholar paper page and returns a bib entry
     :param url: the URL of the Semantic Scholar paper page
-    :return: the bib entry or None if not found / error occurred
+    :return: a tuple of (bib entry, title) or None if not found / error occurred
     """
     try:
         page = urllib.request.urlopen(url)
@@ -220,9 +288,9 @@ def get_bib_from_semantic_scholar(url):
         )
 
     except:
-        bib_entry = None
+        return None
 
-    return bib_entry
+    return (bib_entry, info['@graph'][1]['headline'])
 
 
 def get_from_pdf(url, acl_anthology_by_title):
@@ -246,9 +314,36 @@ def get_from_pdf(url, acl_anthology_by_title):
         title = text.split('\n')[0]
         bib_entry = acl_anthology_by_title.get(normalize_title(title), None)
     except:
-        bib_entry = None
+        return None
 
-    return bib_entry
+    if bib_entry is not None:
+        return (bib_entry, title)
+
+    else:
+        return None
+
+
+def get_title_from_bib_entry(bib_entry):
+    """
+    Gets a bib entry in a textual format and returns the paper title
+    :param bib_entry:
+    :return: the title or None if not found
+    """
+    title = None
+
+    # Make one line and lowercase
+    bib_entry_text = re.sub('\s+', ' ', bib_entry.lower())
+
+    # Find the title
+    match = re.search('\stitle\s*=\s*[{{"]([^"}}]+)[}}"]', bib_entry_text)
+
+    if match:
+        title = match.group(1)
+
+    if title is not None:
+        title = normalize_title(title)
+
+    return title
 
 
 if __name__ == '__main__':

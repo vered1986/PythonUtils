@@ -87,3 +87,15 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+references/\.idea/
+
+references/\.history
+
+references/anthology\.bib
+
+references/reading_list\.txt
+
+references/references\.bib
+
+references/temp\.pdf
