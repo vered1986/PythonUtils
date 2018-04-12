@@ -30,7 +30,8 @@ You must provide either a URL from which to scrape the publication links (e.g. `
 or a text file in which each line is a URL (e.g. `auto_bib.py --in_file reading_list.txt`).
 
 The script reads all the links and assumes that any link to PDF, BIB or without extension is a publication.
-It scrapes information from [ACL anthology](http://aclweb.org/anthology/), [Semantic Scholar](https://www.semanticscholar.org),
+It scrapes information from [ACL anthology](http://aclweb.org/anthology/), [TACL](https://transacl.org/ojs/index.php/tacl/),
+[Semantic Scholar](https://www.semanticscholar.org),
 and [arXiv](https://arxiv.org), using [https://github.com/nathangrigg/arxiv2bib](arxiv2bib).
 
 The output is a bib file saved under `out_bib_file` (default `references.bib`).
