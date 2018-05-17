@@ -43,7 +43,10 @@ def load_embeddings(file_name):
     :return: the vocabulary and the word vectors
     """
     with codecs.open(file_name, 'r', 'utf-8') as f_in:
-        words, vectors = zip(*[line.strip().split(' ', 1) for line in f_in])
+        lines = [line.strip() for line in f_in]
+
+    embedding_dim = len(lines[0].split()) - 1
+    words, vectors = zip(*[line.strip().split(' ', 1) for line in lines if len(line.split()) == embedding_dim + 1])
     wv = np.loadtxt(vectors)
 
     return wv, words
