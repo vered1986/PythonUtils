@@ -283,8 +283,8 @@ def get_bib_from_semantic_scholar(url):
                info['@graph'][1]['headline'].split()[0],
             title=info['@graph'][1]['headline'],
             authors=' and '.join([author['name'] for author in info['@graph'][1]['author']]),
-            conf=info['@graph'][1]['datePublished'],
-            year=info['@graph'][1]['publication']
+            year=info['@graph'][1]['datePublished'],
+            conf=info['@graph'][1]['publication']
         )
 
     except:
