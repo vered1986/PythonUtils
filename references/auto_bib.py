@@ -27,11 +27,12 @@ import json
 import tqdm
 import urllib
 import codecs
-import textract
 
 from bs4 import BeautifulSoup
 from arxiv2bib import arxiv2bib
 from urllib.parse import urljoin
+
+from common import get_from_pdf, normalize_title, process_acl_anthology_file
 
 
 def main():
@@ -172,7 +173,13 @@ def try_get_bib(url, acl_anthology_by_id, acl_anthology_by_title):
 
     # Else: try to read the pdf and find it in the acl anthology by the title
     if lowercased_url.endswith('pdf'):
-        result = get_from_pdf(url, acl_anthology_by_title)
+
+        # Download the file to a temporary file
+        data = urllib.request.urlopen(url).read()
+        with open('temp.pdf', 'wb') as f_out:
+            f_out.write(data)
+
+        result = get_from_pdf('temp.pdf', acl_anthology_by_title)
 
         if result is not None:
             bib_entry, title = result
@@ -182,66 +189,6 @@ def try_get_bib(url, acl_anthology_by_id, acl_anthology_by_title):
     # Didn't find
     logger.warning('Could not find {}'.format(url))
     return None
-
-
-def process_acl_anthology_file():
-    """
-    Reads the single ACL anthology bib entries file and saves it as
-    a dictionary of title -> bib entry. Titles are lower-cased and trimmed (e.g.
-    only a single space separates each word), and punctuation is removed
-    (to normalize and facilitate the search).
-    :return: a dictionary of bib entries by ID and by title
-    """
-    entries_by_id, entries_by_title = {}, {}
-    title_pattern = re.compile('\s*title\s*=\s*"([^"]+)"')
-    entry_pattern = re.compile('\s*@InProceedings{([^,]+),')
-    entry = []
-    id, normalized_title = None, None
-
-    with codecs.open('anthology.bib', 'r', 'utf-8') as f_in:
-        for line in tqdm.tqdm(f_in):
-            line = line.strip()
-
-            match = entry_pattern.match(line)
-
-            # Beginning of bib entry
-            if match:
-                entry = [line]
-                normalized_title = None
-                id = match.group(1).upper()
-
-            # End of bib entry
-            elif line == '}':
-                entry.append('}')
-                entry_text = '\n'.join(entry)
-
-                if normalized_title is not None:
-                    entries_by_title[normalized_title] = entry_text
-
-                if id is not None:
-                    entries_by_id[id] = entry_text
-
-                entry, normalized_title, id = [], None, None
-
-            else:
-                match = title_pattern.match(line)
-
-                # Title
-                if match:
-                    normalized_title = normalize_title(match.group(1))
-
-                entry.append(line)
-
-    return entries_by_id, entries_by_title
-
-
-def normalize_title(title):
-    """
-    Lower-cases, trims, and removes any non alphanumeric character in the title
-    :param title: the original paper title
-    :return: the normalized title
-    """
-    return re.sub('\s+', ' ', re.sub('[\W_]+', ' ', title.lower()))
 
 
 def get_bib_from_tacl(paper_id):
@@ -291,36 +238,6 @@ def get_bib_from_semantic_scholar(url):
         return None
 
     return (bib_entry, info['@graph'][1]['headline'])
-
-
-def get_from_pdf(url, acl_anthology_by_title):
-    """
-    Reads a paper from a pdf, extracts its title and searches for it in the ACL anthology
-    :param url: the URL of the pdf file
-    :param acl_anthology_by_title: a dictionary of paper titles to bib entries
-    :return: the bib entry or None if not found / error occurred
-    """
-    try:
-
-        # Download the file to a temporary file
-        data = urllib.request.urlopen(url).read()
-        with open('temp.pdf', 'wb') as f_out:
-            f_out.write(data)
-
-        # Get the "title" - first line in the file
-        text = textract.process('temp.pdf').decode('utf-8')
-
-        # Search for it in the ACL anthology
-        title = text.split('\n')[0]
-        bib_entry = acl_anthology_by_title.get(normalize_title(title), None)
-    except:
-        return None
-
-    if bib_entry is not None:
-        return (bib_entry, title)
-
-    else:
-        return None
 
 
 def get_title_from_bib_entry(bib_entry):
