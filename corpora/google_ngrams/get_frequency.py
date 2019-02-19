@@ -36,7 +36,7 @@ def get_occurences_in_corpus(target_ngram, google_ngram_dir):
     
     # No file for this prefix
     if not os.path.exists(curr_ngram_file):
-        logging.warning(f'file {curr_ngram_file} does not exist')
+        logger.warning(f'file {curr_ngram_file} does not exist')
         return 0
         
     # The Google ngrams file is tab separated, containing: ngram and count.
