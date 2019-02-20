@@ -52,7 +52,7 @@ for letter in "${letters[@]}"
 do
     (
     echo "aggregating googlebooks-eng-all-1gram-20120701-${letter}"
-    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-1gram-20120701-${letter} | grep -P "^[[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-1gram-20120701-${letter}_aggregated;
+    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-1gram-20120701-${letter} | grep -P "^[[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-1gram-20120701-${letter}_filtered;
     ) &
 done
 wait
@@ -64,7 +64,7 @@ do
     do
     (
     echo "aggregating googlebooks-eng-all-2gram-20120701-${first}${second}"
-    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-2gram-20120701-${first}${second} | grep -P "^[[:alpha:]]+ [[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-2gram-20120701-${first}${second}_aggregated;
+    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-2gram-20120701-${first}${second} | grep -P "^[[:alpha:]]+ [[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-2gram-20120701-${first}${second}_filtered;
     ) &
     done
     wait
@@ -77,7 +77,7 @@ do
     do
     (
     echo "aggregating googlebooks-eng-all-3gram-20120701-${first}${second}"
-    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-3gram-20120701-${first}${second} | grep -P "^[[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-3gram-20120701-${first}${second}_aggregated;
+    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-3gram-20120701-${first}${second} | grep -P "^[[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-3gram-20120701-${first}${second}_filtered;
     ) &
     done
     wait
@@ -90,7 +90,7 @@ do
     do
     (
     echo "aggregating googlebooks-eng-all-4gram-20120701-${first}${second}"
-    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-4gram-20120701-${first}${second} | grep -P "^[[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-4gram-20120701-${first}${second}_aggregated;
+    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-4gram-20120701-${first}${second} | grep -P "^[[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-4gram-20120701-${first}${second}_filtered;
     ) &
     done
     wait
@@ -103,7 +103,7 @@ do
     do
     (
     echo "aggregating googlebooks-eng-all-5gram-20120701-${first}${second}"
-    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-5gram-20120701-${first}${second} | grep -P "^[[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-5gram-20120701-${first}${second}_aggregated;
+    awk -F $'\t' 'BEGIN { OFS = FS } { a[tolower($1)]+=$3; } END {for (ngram in a) print ngram, a[ngram]}' googlebooks-eng-all-5gram-20120701-${first}${second} | grep -P "^[[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+ [[:alpha:]]+\t[0-9]+$" | sort > googlebooks-eng-all-5gram-20120701-${first}${second}_filtered;
     ) &
     done
     wait

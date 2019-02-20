@@ -27,12 +27,13 @@ def get_occurences_in_corpus(target_ngram, google_ngram_dir):
     """
     target_ngram = target_ngram.lower()
     n = len(target_ngram.split())
+    target_ngram_nospace = target_ngram.replace(' ', '')
     
     if n > 5 or n < 1:
         raise ValueError('n must be between 1 and 5')
         
     prefix = target_ngram[0] if n == 1 else target_ngram[:2]
-    curr_ngram_file = f'{google_ngram_dir}/googlebooks-eng-all-{n}gram-20120701-{prefix}_aggregated'
+    curr_ngram_file = f'{google_ngram_dir}/googlebooks-eng-all-{n}gram-20120701-{prefix}_filtered'
     
     # No file for this prefix
     if not os.path.exists(curr_ngram_file):
@@ -44,12 +45,13 @@ def get_occurences_in_corpus(target_ngram, google_ngram_dir):
         for line in f_in:
             try:
                 ngram, count = line.lower().strip().split('\t')
-            
+                ngram_nospace = ngram.replace(' ', '')
+                
                 # Found ngram - return count
                 if ngram == target_ngram:
                     return int(count)
                 # No ngram found (file is sorted)
-                elif re.match('^[a-z]+$', ngram.lower()) and ngram > target_ngram:
+                elif ngram_nospace > target_ngram_nospace:
                     return 0
             except:
                 pass
