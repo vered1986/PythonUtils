@@ -1,12 +1,9 @@
 import re
-import sys
-reload(sys)
-sys.setdefaultencoding('UTF-8')
+import urllib
 
-import urllib2
-
+from bs4 import BeautifulSoup
 from xml.sax.saxutils import unescape
-from BeautifulSoup import BeautifulSoup
+
 
 MAX_PAGES = 10
 
@@ -31,8 +28,8 @@ def search(query):
         headers = {'User-Agent' : user_agent}
 
         try:
-            req = urllib2.Request(url, None, headers)
-            response = urllib2.urlopen(req)
+            req = urllib.request.Request(url, None, headers)
+            response = urllib.request.urlopen(req)
             html = response.read()
             soup = BeautifulSoup(html)
 

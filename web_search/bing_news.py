@@ -1,14 +1,10 @@
 import re
-import sys
-reload(sys)
-sys.setdefaultencoding('UTF-8')
-
 import math
-import urllib2
+import urllib
 
 from threading import Thread
-from HTMLParser import HTMLParser
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
+from html.parser import HTMLParser
 
 MAX_PAGES = 10
 MAX_THREADS = 10
@@ -20,7 +16,6 @@ def search(query_words, max_pages=MAX_PAGES):
     :param query_words: a list of key words to query
     :return: text snippets and titles along with their timestamps
     """
-
     threads = []
     results = {}
     query = '"' + '"+"'.join(query_words).replace(' ', '%20') + '"'
@@ -37,7 +32,7 @@ def search(query_words, max_pages=MAX_PAGES):
 
             # Create a new search thread and start it
             curr_url_reader = URLReader()
-            url_opener = urllib2.build_opener(curr_url_reader)
+            url_opener = urllib.request.build_opener(curr_url_reader)
             thread = Thread(target=url_opener.open, args=(url,))
             results[thread] = curr_url_reader
             thread.start()
@@ -86,7 +81,7 @@ def clean_html(html):
     return text
 
 
-class URLReader(urllib2.HTTPHandler):
+class URLReader(urllib.request.HTTPHandler):
 
     def http_response(self, request, response):
         """
@@ -96,7 +91,6 @@ class URLReader(urllib2.HTTPHandler):
         :return: sets self.results to contain the titles and snippets of the search results,
         along with their timestamps, and returns the response
         """
-
         self.results = []
         html = response.read()
         soup = BeautifulSoup(html)
@@ -104,18 +98,15 @@ class URLReader(urllib2.HTTPHandler):
         # Get the snippets and titles with timestamps
         # format: <div class="newsitem item cardcommon" url="[URL]">
         captions = [x.find('div', { 'class' : 'caption' })
-                    for x in soup.findAll('div', { 'class' : 'newsitem item cardcommon' })]
+                    for x in soup.findAll('div', { 'class' : 'news-card newsitem cardcommon' })]
 
-        results = [(unicode(caption.find('div', { 'class' : 'snippet' })),
-                    unicode(caption.find('a', { 'class' : 'title' })),
-                    caption.find('div', { 'class' : 'source' }).find('span', { 'class' : 'timestamp' }).text)
-                   for caption in captions]
+        results = [(caption.find('div', { 'class' : 'snippet' }), caption.find('a', { 'class' : 'title' })) for caption in captions]
 
         if len(results) > 0:
-            snippets, titles, timespans = zip(*results)
-            snippets = [clean_html(snippet[snippet.index('>') + 1 : -6]) for snippet in snippets]
-            titles = [clean_html(title[title.index('>') + 1 : -4]) for title in titles]
-            timespans = map(clean_html, timespans)
-            self.results = zip(snippets, timespans) + zip(titles, timespans)
+            snippets, titles = zip(*results)
+            snippets = [clean_html(snippet.contents[0]) for snippet in snippets]
+            titles = [clean_html(title.contents[0]) for title in titles]
+            self.results = titles + snippets
 
         return response
+    
