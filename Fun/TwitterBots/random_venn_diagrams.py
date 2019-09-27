@@ -1,3 +1,4 @@
+import os
 import time
 import json
 import tweepy
@@ -27,10 +28,15 @@ def main():
 
     while True:
         try:
+            if os.path.exists(filename):
+                os.remove(filename)
+                
             generate_random_venn(wordnet, filename=filename)
+                
             api.update_with_media(filename=filename)
             time.sleep(3600)
-        except:
+        except Exception as e:
+            print(e)
             pass
 
 
