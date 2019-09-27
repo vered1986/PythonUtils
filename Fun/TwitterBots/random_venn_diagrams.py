@@ -31,7 +31,7 @@ def main():
             api.update_with_media(filename=filename)
             time.sleep(3600)
         except:
-            break
+            pass
 
 
 class WordNetHelper:
