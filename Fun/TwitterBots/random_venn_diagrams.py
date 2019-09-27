@@ -78,8 +78,8 @@ def draw_venn(A, B, C, set_labels=['A', 'B', 'C'], filename=None):
 
     if filename is not None:
         plt.savefig(filename, format='png', bbox_inches='tight')
-
-    plt.show()
+    else:
+        plt.show()
 
 
 def generate_random_venn(wordnet, filename=None):
