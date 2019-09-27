@@ -92,6 +92,7 @@ def generate_random_venn(wordnet, filename=None):
     found = False
 
     while not found:
+        plt.clf()
         set_by_member = defaultdict(set)
         world = wordnet.get_random_synset()
         subclasses = wordnet.get_subclasses(world)
