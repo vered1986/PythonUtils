@@ -7,7 +7,6 @@ import matplotlib_venn
 
 import matplotlib.pyplot as plt
 
-from collections import defaultdict
 from nltk.corpus import wordnet as wn
 
 
@@ -27,17 +26,13 @@ def main():
     filename = 'temp.png'
 
     while True:
-        try:
-            if os.path.exists(filename):
-                os.remove(filename)
-                
-            generate_random_venn(wordnet, filename=filename)
-                
-            api.update_with_media(filename=filename)
-            time.sleep(3600)
-        except Exception as e:
-            print(e)
-            pass
+        if os.path.exists(filename):
+            os.remove(filename)
+
+        generate_random_venn(wordnet, filename=filename)
+
+        api.update_with_media(filename=filename)
+        time.sleep(3600)
 
 
 class WordNetHelper:
@@ -93,54 +88,62 @@ def generate_random_venn(wordnet, filename=None):
 
     while not found:
         plt.clf()
-        set_by_member = defaultdict(set)
+        
+        # Random world to start from
         world = wordnet.get_random_synset()
+        
+        # All of the possible sets (dictionary of names to members) 
         subclasses = wordnet.get_subclasses(world)
         sets = {wordnet.get_name(subclass): wordnet.get_members(subclass)
                 for subclass in subclasses}
-        sets = {name: members for name, members in sets.items()
-                if len(members) >= 3}
+        
+        # Only keep sets that contain at least 3 members
+        sets = {name: members for name, members in sets.items() if len(members) >= 3}
 
+        # We need 3 sets for the Venn
         if len(sets) < 3:
             continue
 
+        # Set name to member names
         sets = {name: [wordnet.get_name(member) for member in subclass]
                 for name, subclass in sets.items()}
 
-        # Make sure there is some intersection
-        [set_by_member[member].add(name)
-         for name, members in sets.items() for member in members]
-        members_in_intersection = {member
-                                   for member, curr_sets in set_by_member.items()
-                                   if len(curr_sets) > 1}
-
-        relevant_sets = set([s
-                             for member, curr_sets in set_by_member.items()
-                             for s in curr_sets
-                             if member in members_in_intersection])
-
-        sets = {name: members for name, members in sets.items()
-                if name in relevant_sets}
-
-        if len(sets) < 3:
+        # Take only sets that have intersection
+        intersections = {name: {oname for oname, omems in sets.items()
+                               if oname != name and len(set(mems).intersection(set(omems))) > 0} 
+                         for name, mems in sets.items()}
+        
+        relevant_sets = [s for s, others in intersections.items() if len(others) >= 2]
+        
+        if len(relevant_sets) == 0:
             continue
+        
+        main_set = random.choice(relevant_sets)
+        
+        if len(intersections[main_set]) > 2:
+            relevant_sets = [main_set] + random.sample(list(intersections[main_set]), 2)
+        else:
+            relevant_sets = [main_set] + list(intersections[main_set])
 
-        sets = list(sets.items())
-        sets = random.sample(sets, 3) if len(sets) > 3 else sets
-        set_labels, sets = zip(*sets)
-
-        new_sets = []
-        for s in sets:
-            if len(s) > 5:
-                members_int = list(set(s).intersection(members_in_intersection))
-                if len(members_int) > 3:
-                    members_int = random.sample(members_int, 3)
-                s = random.sample(s, 5 - len(members_int)) + members_int
-            new_sets.append(set(s))
-
+        set_labels = relevant_sets 
+        
+        # Randomly select members 
+        A, B, C = [set(sets[name]) for name in relevant_sets]
+        all_members = [A.difference(B.union(C)),
+                       B.difference(A.union(C)),
+                       A.intersection(B).difference(C),
+                       C.difference(B.union(A)),
+                       A.intersection(C).difference(B),
+                       B.intersection(C).difference(A),
+                       A.intersection(B).intersection(C)]
+        
+        all_members = [random.sample(list(members), 3) if len(members) > 3 else members for members in all_members]
+        all_members = set.union(*[set(s) for s in all_members])
+        sets = [set(sets[name]).intersection(all_members) for name in relevant_sets] 
+       
         found = True
 
-    draw_venn(*new_sets, set_labels=set_labels, filename=filename)
+    draw_venn(*sets, set_labels=set_labels, filename=filename)
 
 
 if __name__ == "__main__":
