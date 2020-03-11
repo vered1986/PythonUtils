@@ -1,3 +1,17 @@
+## Zotero to Google Doc
+
+Import a Zotero collection to Google Doc as a report which includes the title, authors, year, venue and notes. 
+
+### Usage:
+
+1. Export a CSV from Zotero (`Export Collection -> CSV`, select `include notes`). 
+2. Save it in your Google Drive as "zotero_input". Sort it as you wish. 
+3. Create a new Google Doc file and open `Tools -> Script Editor`.  
+4. Copy the content of `zotero_csv_to_google_doc.gs` and call `main()`. 
+
+
+## References
+
 This directory contains a script for automating the creation of bib files and reading lists for NLP publications.
 
 #### Requirements

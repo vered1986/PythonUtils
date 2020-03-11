@@ -55,7 +55,7 @@ class WordNetHelper:
         return [l.replace('_', ' ') for l in synset.lemma_names()][0]
 
 
-def draw_venn(A, B, C, set_labels=['A', 'B', 'C'], filename=None):
+def draw_venn3(A, B, C, set_labels=['A', 'B', 'C'], filename=None):
     """
     Draw a Venn diagram for sets A, B, and C
     """
@@ -81,8 +81,90 @@ def draw_venn(A, B, C, set_labels=['A', 'B', 'C'], filename=None):
         plt.savefig(filename, format='png', bbox_inches='tight')
     else:
         plt.show()
+        
+        
+def draw_venn2(A, B, set_labels=['A', 'B'], filename=None):
+    """
+    Draw a Venn diagram for sets A and B
+    """
+    sets = [A, B]
+
+    diagram = matplotlib_venn.venn2(sets, set_labels=set_labels)
+    _ = matplotlib_venn.venn2_circles(sets, linestyle='solid', linewidth=1)
+
+    # A, B, AB
+    members = [A.difference(B),
+               B.difference(A),
+               A.intersection(B)]
+
+    for v, curr_members in zip(diagram.subset_labels, members):
+        if v is not None:
+            v.set_text(str('\n'.join(curr_members)))
+
+    if filename is not None:
+        plt.savefig(filename, format='png', bbox_inches='tight')
+    else:
+        plt.show()
+
+        
+def generate_random_venn2(intersections, sets):
+    relevant_sets = [s for s, others in intersections.items() if len(others) >= 1]
+        
+    if len(relevant_sets) == 0:
+        return None
+
+    main_set = random.choice(relevant_sets)
+
+    if len(intersections[main_set]) > 1:
+        relevant_sets = [main_set] + random.choice(list(intersections[main_set]))
+    else:
+        relevant_sets = [main_set] + list(intersections[main_set])
+
+    set_labels = relevant_sets 
+
+    # Randomly select members 
+    A, B = [set(sets[name]) for name in relevant_sets]
+    all_members = [A.difference(B),
+                   B.difference(A),
+                   A.intersection(B)]
+
+    all_members = [random.sample(list(members), 3) if len(members) > 3 else members for members in all_members]
+    all_members = set.union(*[set(s) for s in all_members])
+    sets = [set(sets[name]).intersection(all_members) for name in relevant_sets] 
+    return sets, set_labels
 
 
+def generate_random_venn3(intersections, sets):
+    relevant_sets = [s for s, others in intersections.items() if len(others) >= 2]
+        
+    if len(relevant_sets) == 0:
+        return None
+
+    main_set = random.choice(relevant_sets)
+
+    if len(intersections[main_set]) > 2:
+        relevant_sets = [main_set] + random.sample(list(intersections[main_set]), 2)
+    else:
+        relevant_sets = [main_set] + list(intersections[main_set])
+
+    set_labels = relevant_sets 
+
+    # Randomly select members 
+    A, B, C = [set(sets[name]) for name in relevant_sets]
+    all_members = [A.difference(B.union(C)),
+                   B.difference(A.union(C)),
+                   A.intersection(B).difference(C),
+                   C.difference(B.union(A)),
+                   A.intersection(C).difference(B),
+                   B.intersection(C).difference(A),
+                   A.intersection(B).intersection(C)]
+
+    all_members = [random.sample(list(members), 3) if len(members) > 3 else members for members in all_members]
+    all_members = set.union(*[set(s) for s in all_members])
+    sets = [set(sets[name]).intersection(all_members) for name in relevant_sets] 
+    return sets, set_labels
+        
+    
 def generate_random_venn(wordnet, filename=None):
     found = False
 
@@ -100,8 +182,8 @@ def generate_random_venn(wordnet, filename=None):
         # Only keep sets that contain at least 3 members
         sets = {name: members for name, members in sets.items() if len(members) >= 3}
 
-        # We need 3 sets for the Venn
-        if len(sets) < 3:
+        # We need 2 or 3 sets for the Venn
+        if len(sets) < 2:
             continue
 
         # Set name to member names
@@ -113,37 +195,20 @@ def generate_random_venn(wordnet, filename=None):
                                if oname != name and len(set(mems).intersection(set(omems))) > 0} 
                          for name, mems in sets.items()}
         
-        relevant_sets = [s for s, others in intersections.items() if len(others) >= 2]
+        # Try 3 first
+        result = generate_random_venn3(intersections, sets)
         
-        if len(relevant_sets) == 0:
-            continue
-        
-        main_set = random.choice(relevant_sets)
-        
-        if len(intersections[main_set]) > 2:
-            relevant_sets = [main_set] + random.sample(list(intersections[main_set]), 2)
+        if result is not None:
+            sets, set_labels = result
+            found = True
+            draw_venn3(*sets, set_labels=set_labels, filename=filename)
         else:
-            relevant_sets = [main_set] + list(intersections[main_set])
-
-        set_labels = relevant_sets 
-        
-        # Randomly select members 
-        A, B, C = [set(sets[name]) for name in relevant_sets]
-        all_members = [A.difference(B.union(C)),
-                       B.difference(A.union(C)),
-                       A.intersection(B).difference(C),
-                       C.difference(B.union(A)),
-                       A.intersection(C).difference(B),
-                       B.intersection(C).difference(A),
-                       A.intersection(B).intersection(C)]
-        
-        all_members = [random.sample(list(members), 3) if len(members) > 3 else members for members in all_members]
-        all_members = set.union(*[set(s) for s in all_members])
-        sets = [set(sets[name]).intersection(all_members) for name in relevant_sets] 
-       
-        found = True
-
-    draw_venn(*sets, set_labels=set_labels, filename=filename)
+            # Try 2
+            result = generate_random_venn2(intersections, sets)
+            if result is not None:
+                sets, set_labels = result 
+                found = True
+                draw_venn2(*sets, set_labels=set_labels, filename=filename)
 
 
 if __name__ == "__main__":
