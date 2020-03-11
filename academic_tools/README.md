@@ -14,21 +14,21 @@ Import a Zotero collection to Google Doc as a report which includes the title, a
 
 This directory contains a script for automating the creation of bib files and reading lists for NLP publications.
 
-#### Requirements
+### Requirements
 
 * Python 3
 * tqdm
 * [textract](http://textract.readthedocs.io/en/latest/installation.html)
 * [bibtexparser](https://bibtexparser.readthedocs.io/en/master/)
 
-## Bib File Creation
+### Bib File Creation
 
 The script reads all the links and assumes that any link to PDF, BIB or without extension is a publication.
 It scrapes information from [ACL anthology](http://aclweb.org/anthology/), [TACL](https://transacl.org/ojs/index.php/tacl/),
 [Semantic Scholar](https://www.semanticscholar.org),
 and [arXiv](https://arxiv.org), using [https://github.com/nathangrigg/arxiv2bib](arxiv2bib).
 
-### Usage:
+#### Usage:
 
 Use `auto_bib.py` to create the bib:
 
@@ -53,7 +53,7 @@ or a text file in which each line is a URL (e.g. `auto_bib.py --in_file reading_
 
 The output is a bib file saved under `out_bib_file` (default `references.bib`).
 
-## Managing a Reading List
+### Managing a Reading List
 
 This script gets a paper pdf and adds it to the reading list, which is saved as a JSON file.
 For now, the pdf file needs to be local, so you must download the paper before you add it to the reading list.
@@ -63,7 +63,7 @@ See Linux (Nautilus) instruction below.
 
 I plan to add a script to view, mark as read, and delete papers from the list (TBD).
 
-### Usage:
+#### Usage:
 
 Use `add_to_reading_list.py` to add a PDF file to your reading list:
 
@@ -83,7 +83,7 @@ optional arguments:
 `in_file` is the path of the pdf paper, and `references_dir` needs to be set to the execution directory.
 The script will ask you to select the reading list file, and attempt to add the file to the reading list.
 
-### Adding a context menu option:
+#### Adding a context menu option:
 
 In Nautilus, follow the instructions in this [link](https://www.howtogeek.com/116807/how-to-easily-add-custom-right-click-options-to-ubuntus-file-manager/), with the following details:
 
@@ -94,7 +94,7 @@ In Nautilus, follow the instructions in this [link](https://www.howtogeek.com/11
 
 You should be able to right-click a PDF file, and select `Nautilus Actions actions > Add to my Reading List`. 
 
-### Limitations:
+#### Limitations:
 
 - This feature is not very-well tested so it is probably buggy as hell. 
 - Currently it can only work for papers which are in the ACL anthology. 
