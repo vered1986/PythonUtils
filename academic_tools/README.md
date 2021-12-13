@@ -1,3 +1,7 @@
+## Find papers by keywords in ACL Anthology:
+
+See this [gist](https://gist.github.com/vered1986/8b07f3338598984bacac57fd6f3c519a#file-find_papers_by_keywords-py).
+
 ## Zotero to Google Doc
 
 Import a Zotero collection to Google Doc as a report which includes the title, authors, year, venue and notes. 
