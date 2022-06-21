@@ -6,7 +6,7 @@ kiwisolver==1.1.0
 matplotlib==3.1.1
 matplotlib-venn==0.11.5
 nltk==3.6.5
-numpy==1.17.2
+numpy==1.22.0
 oauthlib==3.1.0
 pyparsing==2.4.2
 PySocks==1.7.1
