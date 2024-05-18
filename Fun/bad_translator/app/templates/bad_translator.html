@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+  <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bad Translator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+  <body>
+    <div class="container">
+        <form name="myForm" id="myForm" action="/bad_translator" method="POST" onsubmit="onSubmitDisable()">
+            <label for="inputText">Enter text in English:</label>
+            <textarea id="inputText" name="inputText" rows="4" placeholder="Type your text here...">{{input}}</textarea>
+
+            <button type="submit" value="submit" id="submitBtn" name="submitBtn">Translate</button><br/><br/>
+
+            <label for="outputText">Translated text:</label>
+            <textarea id="outputText" name="outputText" rows="4" readonly>{{output}}</textarea>
+        </form>
+
+        <script>
+            function onSubmitDisable() {
+                document.getElementById('outputText').value="";
+                document.getElementById('submitBtn').disabled="true";
+                console.log(document.getElementById('submitBtn').disabled);
+                return true;
+            }
+        </script>
+    </div>
+  </body>
+</html>
