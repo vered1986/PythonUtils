@@ -11,7 +11,7 @@ oauthlib==3.1.0
 pyparsing==2.4.2
 PySocks==1.7.1
 python-dateutil==2.8.0
-requests==2.32.2
+requests==2.32.4
 requests-oauthlib==1.2.0
 scipy==1.10.0
 six==1.12.0
