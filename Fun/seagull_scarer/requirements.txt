@@ -1,0 +1,176 @@
+aiohappyeyeballs @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_6decsjc93r/croot/aiohappyeyeballs_1734469407680/work
+aiohttp @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_ccjz918vvn/croot/aiohttp_1734687143062/work
+aiosignal @ file:///tmp/build/80754af9/aiosignal_1637843061372/work
+attrs @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_3d06zr_mcz/croot/attrs_1734533118470/work
+brotlicffi @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_05qpoetyrv/croot/brotlicffi_1736182869800/work
+cachetools @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_f12x4m5uvx/croot/cachetools_1738225252032/work
+certifi @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_541lf40aku/croot/certifi_1754570641531/work/certifi
+cffi @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_51d1gdg4kr/croot/cffi_1736183297412/work
+charset-normalizer @ file:///croot/charset-normalizer_1721748349566/work
+cryptography @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_28w51s4__9/croot/cryptography_1740577842391/work
+frozenlist @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_11anscvt0v/croot/frozenlist_1730902824748/work
+google-api-core @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_0editd5wj3/croot/google-api-core-split_1742926794387/work
+google-auth @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_26_fni4dt5/croot/google-auth_1741279011489/work
+google-cloud-vision @ file:///home/conda/feedstock_root/build_artifacts/google-cloud-vision_1761992376249/work
+googleapis-common-protos @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_e5lez913uy/croot/googleapis-common-protos-feedstock_1742588914150/work
+grpcio @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_45xlfxf0dl/croot/grpc-split_1742493175440/work
+grpcio-status @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_4eprrtp3yp/croot/grpcio-status_1753877266308/work
+idna @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/idna_1728594952911/work
+multidict @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_3ecxr7g6ut/croot/multidict_1730905500260/work
+playsound @ file:///home/conda/feedstock_root/build_artifacts/playsound_1735588467021/work
+propcache @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_31el6_waw6/croot/propcache_1744012730745/work
+proto-plus @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_51emp8lnze/croot/proto-plus_1742829358176/work
+protobuf @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_0aksusx5xk/croot/protobuf_1742419713773/work/bazel-bin/python/dist/protobuf-5.29.3-cp313-abi3-macosx_10_13_x86_64.whl#sha256=30a9a728f31f20ac3dea103ea87388fb158bfef7885f7390ba85f47d4c65a32c
+pyasn1 @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/pyasn1_1731743072458/work
+pyasn1_modules @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_3ay7noqd_f/croot/pyasn1-modules_1752042912237/work
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+pyobjc==12.1
+pyobjc-core==12.1
+pyobjc-framework-Accessibility==12.1
+pyobjc-framework-Accounts==12.1
+pyobjc-framework-AddressBook==12.1
+pyobjc-framework-AdServices==12.1
+pyobjc-framework-AdSupport==12.1
+pyobjc-framework-AppleScriptKit==12.1
+pyobjc-framework-AppleScriptObjC==12.1
+pyobjc-framework-ApplicationServices==12.1
+pyobjc-framework-AppTrackingTransparency==12.1
+pyobjc-framework-AudioVideoBridging==12.1
+pyobjc-framework-AuthenticationServices==12.1
+pyobjc-framework-AutomaticAssessmentConfiguration==12.1
+pyobjc-framework-Automator==12.1
+pyobjc-framework-AVFoundation==12.1
+pyobjc-framework-AVKit==12.1
+pyobjc-framework-BusinessChat==12.1
+pyobjc-framework-CalendarStore==12.1
+pyobjc-framework-CallKit==12.1
+pyobjc-framework-Carbon==12.1
+pyobjc-framework-CFNetwork==12.1
+pyobjc-framework-ClassKit==12.1
+pyobjc-framework-CloudKit==12.1
+pyobjc-framework-Cocoa==12.1
+pyobjc-framework-Collaboration==12.1
+pyobjc-framework-ColorSync==12.1
+pyobjc-framework-Contacts==12.1
+pyobjc-framework-ContactsUI==12.1
+pyobjc-framework-CoreAudio==12.1
+pyobjc-framework-CoreAudioKit==12.1
+pyobjc-framework-CoreBluetooth==12.1
+pyobjc-framework-CoreData==12.1
+pyobjc-framework-CoreHaptics==12.1
+pyobjc-framework-CoreLocation==12.1
+pyobjc-framework-CoreMedia==12.1
+pyobjc-framework-CoreMediaIO==12.1
+pyobjc-framework-CoreMIDI==12.1
+pyobjc-framework-CoreML==12.1
+pyobjc-framework-CoreMotion==12.1
+pyobjc-framework-CoreServices==12.1
+pyobjc-framework-CoreSpotlight==12.1
+pyobjc-framework-CoreText==12.1
+pyobjc-framework-CoreWLAN==12.1
+pyobjc-framework-CryptoTokenKit==12.1
+pyobjc-framework-DataDetection==12.1
+pyobjc-framework-DeviceCheck==12.1
+pyobjc-framework-DictionaryServices==12.1
+pyobjc-framework-DiscRecording==12.1
+pyobjc-framework-DiscRecordingUI==12.1
+pyobjc-framework-DiskArbitration==12.1
+pyobjc-framework-DVDPlayback==12.1
+pyobjc-framework-EventKit==12.1
+pyobjc-framework-ExceptionHandling==12.1
+pyobjc-framework-ExecutionPolicy==12.1
+pyobjc-framework-ExternalAccessory==12.1
+pyobjc-framework-FileProvider==12.1
+pyobjc-framework-FileProviderUI==12.1
+pyobjc-framework-FinderSync==12.1
+pyobjc-framework-FSEvents==12.1
+pyobjc-framework-GameCenter==12.1
+pyobjc-framework-GameController==12.1
+pyobjc-framework-GameKit==12.1
+pyobjc-framework-GameplayKit==12.1
+pyobjc-framework-ImageCaptureCore==12.1
+pyobjc-framework-InputMethodKit==12.1
+pyobjc-framework-InstallerPlugins==12.1
+pyobjc-framework-InstantMessage==12.1
+pyobjc-framework-Intents==12.1
+pyobjc-framework-IntentsUI==12.1
+pyobjc-framework-IOBluetooth==12.1
+pyobjc-framework-IOBluetoothUI==12.1
+pyobjc-framework-IOSurface==12.1
+pyobjc-framework-iTunesLibrary==12.1
+pyobjc-framework-KernelManagement==12.1
+pyobjc-framework-LatentSemanticMapping==12.1
+pyobjc-framework-LaunchServices==12.1
+pyobjc-framework-libdispatch==12.1
+pyobjc-framework-libxpc==12.1
+pyobjc-framework-LinkPresentation==12.1
+pyobjc-framework-LocalAuthentication==12.1
+pyobjc-framework-LocalAuthenticationEmbeddedUI==12.1
+pyobjc-framework-MailKit==12.1
+pyobjc-framework-MapKit==12.1
+pyobjc-framework-MediaAccessibility==12.1
+pyobjc-framework-MediaLibrary==12.1
+pyobjc-framework-MediaPlayer==12.1
+pyobjc-framework-MediaToolbox==12.1
+pyobjc-framework-Metal==12.1
+pyobjc-framework-MetalKit==12.1
+pyobjc-framework-MetalPerformanceShaders==12.1
+pyobjc-framework-MetalPerformanceShadersGraph==12.1
+pyobjc-framework-MetricKit==12.1
+pyobjc-framework-MLCompute==12.1
+pyobjc-framework-ModelIO==12.1
+pyobjc-framework-MultipeerConnectivity==12.1
+pyobjc-framework-NaturalLanguage==12.1
+pyobjc-framework-NetFS==12.1
+pyobjc-framework-Network==12.1
+pyobjc-framework-NetworkExtension==12.1
+pyobjc-framework-NotificationCenter==12.1
+pyobjc-framework-OpenDirectory==12.1
+pyobjc-framework-OSAKit==12.1
+pyobjc-framework-OSLog==12.1
+pyobjc-framework-PassKit==12.1
+pyobjc-framework-PencilKit==12.1
+pyobjc-framework-PHASE==12.1
+pyobjc-framework-Photos==12.1
+pyobjc-framework-PhotosUI==12.1
+pyobjc-framework-PreferencePanes==12.1
+pyobjc-framework-PushKit==12.1
+pyobjc-framework-Quartz==12.1
+pyobjc-framework-QuickLookThumbnailing==12.1
+pyobjc-framework-ReplayKit==12.1
+pyobjc-framework-SafariServices==12.1
+pyobjc-framework-SceneKit==12.1
+pyobjc-framework-ScreenCaptureKit==12.1
+pyobjc-framework-ScreenSaver==12.1
+pyobjc-framework-ScreenTime==12.1
+pyobjc-framework-ScriptingBridge==12.1
+pyobjc-framework-SearchKit==12.1
+pyobjc-framework-Security==12.1
+pyobjc-framework-SecurityFoundation==12.1
+pyobjc-framework-SecurityInterface==12.1
+pyobjc-framework-ServiceManagement==12.1
+pyobjc-framework-ShazamKit==12.1
+pyobjc-framework-Social==12.1
+pyobjc-framework-SoundAnalysis==12.1
+pyobjc-framework-Speech==12.1
+pyobjc-framework-SpriteKit==12.1
+pyobjc-framework-StoreKit==12.1
+pyobjc-framework-SyncServices==12.1
+pyobjc-framework-SystemConfiguration==12.1
+pyobjc-framework-SystemExtensions==12.1
+pyobjc-framework-UniformTypeIdentifiers==12.1
+pyobjc-framework-UserNotifications==12.1
+pyobjc-framework-UserNotificationsUI==12.1
+pyobjc-framework-VideoSubscriberAccount==12.1
+pyobjc-framework-VideoToolbox==12.1
+pyobjc-framework-Virtualization==12.1
+pyobjc-framework-Vision==12.1
+pyobjc-framework-WebKit==12.1
+pyOpenSSL @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_ee06ep25ji/croot/pyopenssl_1741343829973/work
+PySocks @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/pysocks_1728595444110/work
+requests @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_3c5r_7_lxu/croot/requests_1750426340266/work
+rsa @ file:///tmp/build/80754af9/rsa_1614366226499/work
+setuptools==78.1.1
+urllib3 @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_f8xnjmnanx/croot/urllib3_1750775879857/work
+wheel==0.45.1
+yarl @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_b63sbdb9p_/croot/yarl_1732546845158/work
