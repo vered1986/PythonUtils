@@ -1,4 +1,4 @@
-certifi==2024.7.4
+certifi==2026.10.19
 chardet==3.0.4
 cycler==0.10.0
 idna==3.15
